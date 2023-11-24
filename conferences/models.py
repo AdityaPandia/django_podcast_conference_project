@@ -44,14 +44,14 @@ class Speaker(models.Model):
 
 
 class Room(models.Model):
-    titleEn = models.CharField(max_length=255)
-    titleJa = models.CharField(max_length=255, blank=True)
+    title_en = models.CharField(max_length=255)
+    title_ja = models.CharField(max_length=255, blank=True)
     sort_order = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.titleEn
+        return self.title_en
 
 
 class SessionCategory(models.Model):
@@ -102,12 +102,18 @@ class ConferenceSession(models.Model):
         null=True,
     )
     is_service_session = models.BooleanField(default=False)
+    interpretation_target = models.BooleanField(default=False)
     room = models.ForeignKey(
         Room,
         on_delete=models.CASCADE,
         related_name="conference_sessions",
+        blank=True,
     )
-    speakers = models.ManyToManyField(Speaker, related_name="conference_sessions")
+    speakers = models.ManyToManyField(
+        Speaker,
+        related_name="conference_sessions",
+        blank=True,
+    )
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
