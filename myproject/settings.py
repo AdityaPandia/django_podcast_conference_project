@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # 3rd party
     "rest_framework",
     "rest_framework_simplejwt",
+    "django_filters",
     # Local
     "users",
     "conferences",
@@ -123,6 +124,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT = "staticfiles/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

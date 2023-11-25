@@ -8,9 +8,9 @@ class ConferenceSessionFilter(django_filters.FilterSet):
     class Meta:
         model = ConferenceSession
         fields = {
-            "language": ["exact"],
-            "category": ["exact"],
-            "start_time": ["date__exact"],
+            "language": ["in"],
+            "category": ["in"],
+            "start_time": ["date__in"],
         }
 
     def filter_search_query(self, queryset, name, value):

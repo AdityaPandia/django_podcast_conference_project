@@ -8,7 +8,7 @@ from .serializers import *
 
 
 class ConferenceSessionListAPIView(generics.ListAPIView):
-    queryset = ConferenceSession.objects.all()
+    queryset = ConferenceSession.objects.order_by("start_time")
     serializer_class = ConferenceSessionSerializer
     filter_backends = [filters.DjangoFilterBackend]
     filterset_class = ConferenceSessionFilter
