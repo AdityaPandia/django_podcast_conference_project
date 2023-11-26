@@ -16,6 +16,11 @@ urlpatterns = [
         name="conference-session-filters",
     ),
     path(
+        "conferences/speakers/",
+        SpeakerListAPIView.as_view(),
+        name="speaker-list",
+    ),
+    path(
         "conferences/sponsors/",
         SponsorListAPIView.as_view(),
         name="sponsor-list",

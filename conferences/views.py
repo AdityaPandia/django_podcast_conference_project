@@ -5,13 +5,22 @@ from rest_framework.response import Response
 from .filters import *
 from .models import *
 from .serializers import *
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 
-class ConferenceSessionListAPIView(generics.ListAPIView):
+class ConferenceSessionListAPIView(generics.ListCreateAPIView):
     queryset = ConferenceSession.objects.order_by("start_time")
-    serializer_class = ConferenceSessionSerializer
-    filter_backends = [filters.DjangoFilterBackend]
+    filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = ConferenceSessionFilter
+    # permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    def get_serializer_class(self):
+        if self.request.method in ["GET"]:
+            return ConferenceSessionReadSerializer
+        return ConferenceSessionSerializer
+
+    # def perform_create(self, serializer):
+    #     serializer.save(owner=self.request.user)
 
 
 class FilterOptionsAPIView(APIView):
@@ -39,3 +48,8 @@ class FilterOptionsAPIView(APIView):
 class SponsorListAPIView(generics.ListAPIView):
     queryset = Sponsor.objects.all()
     serializer_class = SponsorSerializer
+
+
+class SpeakerListAPIView(generics.ListAPIView):
+    queryset = Speaker.objects.all()
+    serializer_class = SpeakerSerializer

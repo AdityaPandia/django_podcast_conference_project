@@ -35,7 +35,7 @@ class SessionCategorySerializer(serializers.ModelSerializer):
         fields = ("id", "title_en", "title_ja", "created_at", "updated_at")
 
 
-class ConferenceSessionSerializer(serializers.ModelSerializer):
+class ConferenceSessionReadSerializer(serializers.ModelSerializer):
     speakers = SpeakerSerializer(many=True)
     room = RoomSerializer()
     category = SessionCategorySerializer()
@@ -61,6 +61,37 @@ class ConferenceSessionSerializer(serializers.ModelSerializer):
             "duration",
             "language",
             "session_type",
+            "is_service_session",
+            "interpretation_target",
+            "created_at",
+            "updated_at",
+        )
+
+
+class ConferenceSessionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ConferenceSession
+        fields = (
+            "id",
+            "title_en",
+            "title_ja",
+            "description_en",
+            "description_ja",
+            "target_audience",
+            "video_url",
+            "slide_url",
+            "message_en",
+            "message_ja",
+            "speakers",
+            "room",
+            "category",
+            "start_time",
+            "end_time",
+            "duration",
+            "language",
+            "session_type",
+            "is_service_session",
+            "interpretation_target",
             "created_at",
             "updated_at",
         )
