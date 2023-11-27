@@ -11,6 +11,7 @@ class ConferenceSessionFilter(django_filters.FilterSet):
             "language": ["in"],
             "category": ["in"],
             "start_time": ["date__in"],
+            "id": ["in"],
         }
 
     def filter_search_query(self, queryset, name, value):
