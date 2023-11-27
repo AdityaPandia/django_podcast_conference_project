@@ -29,14 +29,17 @@ class FilterOptionsAPIView(APIView):
     """
 
     def get(self, request, *args, **kwargs):
+        rooms = Room.objects.order_by("sort_order")
         categories = SessionCategory.objects.all()
         dates = ConferenceSession.objects.dates("start_time", "day", order="ASC")
         language_choices = [
             {"value": choice[0], "label": choice[1]} for choice in LANGUAGE_CHOICES
         ]
+        room_serializer = RoomSerializer(rooms, many=True)
         category_serializer = SessionCategorySerializer(categories, many=True)
         return Response(
             {
+                "rooms": room_serializer.data,
                 "categories": category_serializer.data,
                 "languages": language_choices,
                 "dates": [date.strftime("%Y-%m-%d") for date in dates],

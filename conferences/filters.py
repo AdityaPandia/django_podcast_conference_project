@@ -10,6 +10,7 @@ class ConferenceSessionFilter(django_filters.FilterSet):
         fields = {
             "language": ["in"],
             "category": ["in"],
+            "room": ["in"],
             "start_time": ["date__in"],
             "id": ["in"],
         }
