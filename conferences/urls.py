@@ -21,6 +21,11 @@ urlpatterns = [
         name="speaker-list",
     ),
     path(
+        "conferences/search/",
+        SearchAPIView.as_view(),
+        name="search",
+    ),
+    path(
         "conferences/sponsors/",
         SponsorListAPIView.as_view(),
         name="sponsor-list",

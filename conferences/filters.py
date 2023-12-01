@@ -19,3 +19,14 @@ class ConferenceSessionFilter(django_filters.FilterSet):
         return queryset.filter(
             models.Q(title_en__icontains=value) | models.Q(title_ja__icontains=value)
         )
+
+
+class SpeakerFilter(django_filters.FilterSet):
+    search_query = django_filters.CharFilter(method="filter_search_query")
+
+    class Meta:
+        model = Speaker
+        fields = ("search_query",)
+
+    def filter_search_query(self, queryset, name, value):
+        return queryset.filter(name__icontains=value)

@@ -56,3 +56,43 @@ class SponsorListAPIView(generics.ListAPIView):
 class SpeakerListAPIView(generics.ListAPIView):
     queryset = Speaker.objects.all()
     serializer_class = SpeakerSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = SpeakerFilter
+
+
+class SearchAPIView(APIView):
+    def get(self, request, *args, **kwargs):
+        search_query = request.GET.get("search_query", "")
+        speakers = Speaker.objects.filter(name__icontains=search_query).order_by("name")
+        conference_sessions = ConferenceSession.objects.filter(
+            models.Q(title_en__icontains=search_query)
+            | models.Q(title_ja__icontains=search_query)
+        ).order_by("title_en")
+
+        # Group speakers by the first letter of their names
+        grouped_speakers = {}
+        for speaker in speakers:
+            first_letter = speaker.name[0].upper()
+            grouped_speakers.setdefault(first_letter, []).append(
+                SpeakerSerializer(speaker).data
+            )
+
+        # Group conference sessions by the first letter of their titles
+        grouped_sessions = {}
+        for session in conference_sessions:
+            first_letter = (
+                session.title_en[0].upper()
+                if session.title_en
+                else session.title_ja[0].upper()
+            )
+            grouped_sessions.setdefault(first_letter, []).append(
+                ConferenceSessionReadSerializer(session).data
+            )
+
+        return Response(
+            {
+                "speakers": grouped_speakers,
+                "conference_sessions": grouped_sessions,
+            },
+            status=status.HTTP_200_OK,
+        )
