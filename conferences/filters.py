@@ -11,6 +11,7 @@ class ConferenceSessionFilter(django_filters.FilterSet):
             "language": ["in"],
             "category": ["in"],
             "room": ["in"],
+            "speakers__id": ["in"],
             "start_time": ["date__in", "gte"],
             "id": ["in"],
         }
