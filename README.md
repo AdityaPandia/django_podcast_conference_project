@@ -42,7 +42,7 @@ ssh-add ~/.ssh/id_ed25519
 cat ~/.ssh/id_ed25519.pub  # Copy the output and create deployment key
 git init
 git remote add origin https://github.com/omganeshdahale/droid-kaigi-backend.git
-git pull origin prod
+git pull origin master
 
 pip install -r requirements.txt
 python manage.py migrate
