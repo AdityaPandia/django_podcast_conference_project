@@ -142,6 +142,8 @@ server {
 Do `nano /etc/nginx/nginx.conf` and update the following 
 so we can upload large files (images)
 ```nginx
+user root;
+...
 http{
 	...
 	client_max_body_size 10M; 
