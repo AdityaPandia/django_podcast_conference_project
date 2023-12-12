@@ -54,9 +54,11 @@ python manage.py collectstatic
 ```bash
 python manage.py runserver 0.0.0.0:8000
 # visit http://<your_ip_address>:8000/
+# ctrl ^c to escape
 
 gunicorn --bind 0.0.0.0:8000 myproject.wsgi
 # visit http://<your_ip_address>:8000/
+# ctrl ^c to escape
 ```
 
 ### Creating systemd Socket and Service Files for Gunicorn
@@ -124,7 +126,7 @@ server {
 
     location = /favicon.ico { access_log off; log_not_found off; }
     location /static/ {
-        root /home/django/CodingWithMitchChat/src;
+        alias /home/django/CodingWithMitchChat/src/staticfiles/;
     }
     
      location / {
