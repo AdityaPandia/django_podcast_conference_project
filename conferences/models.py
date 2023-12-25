@@ -129,6 +129,20 @@ class ConferenceSession(models.Model):
         return self.title_en
 
 
+class SessionLike(models.Model):
+    session = models.ForeignKey(
+        ConferenceSession,
+        on_delete=models.CASCADE,
+        related_name="session_likes",
+    )
+    device_id = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.session.title_en} - {self.device_id}"
+
+
 class Sponsor(models.Model):
     title = models.CharField(max_length=255)
     logo_url = models.URLField(blank=True)

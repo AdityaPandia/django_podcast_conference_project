@@ -11,6 +11,11 @@ urlpatterns = [
         name="conference-session-list",
     ),
     path(
+        "conferences/sessions/<int:pk>/like/",
+        SessionLikeAPIView.as_view(),
+        name="session-like",
+    ),
+    path(
         "conferences/sessions/filters/",
         FilterOptionsAPIView.as_view(),
         name="conference-session-filters",

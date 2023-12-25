@@ -1,3 +1,4 @@
+from django.shortcuts import get_object_or_404
 from django_filters import rest_framework as filters
 from rest_framework import generics, status
 from rest_framework.views import APIView
@@ -18,6 +19,12 @@ class ConferenceSessionListAPIView(generics.ListCreateAPIView):
         if self.request.method in ["GET"]:
             return ConferenceSessionReadSerializer
         return ConferenceSessionSerializer
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        device_id = self.request.META.get("HTTP_DEVICE_ID")
+        context.update({"device_id": device_id})
+        return context
 
     # def perform_create(self, serializer):
     #     serializer.save(owner=self.request.user)
@@ -82,15 +89,17 @@ class SearchAPIView(APIView):
 
         # Group conference sessions by the first letter of their titles
         grouped_sessions = {}
+        device_id = request.META.get("HTTP_DEVICE_ID")
         for session in conference_sessions:
             first_letter = (
                 session.title_en[0].upper()
                 if session.title_en
                 else session.title_ja[0].upper()
             )
-            grouped_sessions.setdefault(first_letter, []).append(
-                ConferenceSessionReadSerializer(session).data
+            serializer = ConferenceSessionReadSerializer(
+                session, context={"device_id": device_id}
             )
+            grouped_sessions.setdefault(first_letter, []).append(serializer.data)
 
         return Response(
             {
@@ -99,3 +108,21 @@ class SearchAPIView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class SessionLikeAPIView(APIView):
+    def post(self, request, *args, **kwargs):
+        session_id = kwargs.get("pk")
+        device_id = request.META.get("HTTP_DEVICE_ID")
+        action = request.data.get("action")
+        session = get_object_or_404(ConferenceSession, pk=session_id)
+        if device_id is None:
+            return Response(
+                {"message": "Expected device-id header"},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        if action == "like":
+            SessionLike.objects.get_or_create(session=session, device_id=device_id)
+        elif action == "unlike":
+            SessionLike.objects.filter(session=session, device_id=device_id).delete()
+        return Response(status=status.HTTP_200_OK)
