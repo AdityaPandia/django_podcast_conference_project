@@ -40,6 +40,7 @@ class ConferenceSessionReadSerializer(serializers.ModelSerializer):
     room = RoomSerializer()
     category = SessionCategorySerializer()
     is_liked = serializers.SerializerMethodField()
+    likes_count = serializers.SerializerMethodField()
 
     class Meta:
         model = ConferenceSession
@@ -65,6 +66,7 @@ class ConferenceSessionReadSerializer(serializers.ModelSerializer):
             "is_service_session",
             "interpretation_target",
             "is_liked",
+            "likes_count",
             "created_at",
             "updated_at",
         )
@@ -74,6 +76,9 @@ class ConferenceSessionReadSerializer(serializers.ModelSerializer):
         if device_id:
             return obj.session_likes.filter(device_id=device_id).exists()
         return False
+
+    def get_likes_count(self, obj):
+        return obj.session_likes.count()
 
 
 class ConferenceSessionSerializer(serializers.ModelSerializer):
