@@ -172,3 +172,17 @@ Here are some commands you can use to look at the server logs. **These commands 
 1. `sudo less /var/log/nginx/error.log` Nginx error logs
 1. `sudo journalctl -u gunicorn` gunicorn application logs
 1. `sudo journalctl -u gunicorn.socket` check gunicorn socket logs
+
+### Updating project
+```bash
+su django
+cd /home/django/CodingWithMitchChat
+source venv/bin/activate
+cd src
+git pull origin master
+pip install -r requirements.txt
+python manage.py migrate
+python manage.py collectstatic
+su root
+sudo systemctl restart gunicorn
+```
