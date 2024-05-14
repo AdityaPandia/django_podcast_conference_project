@@ -157,3 +157,33 @@ class Sponsor(models.Model):
 
     def __str__(self):
         return self.title
+
+
+#podcasts here
+
+
+class Author(models.Model):
+    id=models.CharField(primary_key=True,max_length=50)
+    name= models.CharField(max_length=100)
+    url=models.URLField(default='')
+    pic_url=models.URLField(default='')
+    class Meta:
+        db_table = 'AUTHORS'
+
+class Podcast(models.Model):
+    id = models.CharField(primary_key=True, max_length=50)
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    episode_amount = models.IntegerField()
+    url=models.URLField(default='')
+    tags=models.TextField()
+    class Meta:
+        db_table = 'PODCASTS'
+class Episode(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    audio_url = models.URLField()
+    url=models.URLField(default='')
+    podcast = models.ForeignKey(Podcast, on_delete=models.CASCADE, related_name='episodes')
+    class Meta:
+        db_table = 'EPISODES'

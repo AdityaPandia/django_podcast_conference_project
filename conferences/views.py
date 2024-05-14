@@ -8,6 +8,21 @@ from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
+class AuthorListAPIView(generics.ListAPIView):
+    queryset=Author.objects.all()
+    serializer_class=AuthorSerializer
+
+class PodcastListAPIView(generics.ListAPIView):
+    queryset = Podcast.objects.all()
+    serializer_class = PodcastSerializer
+
+class EpisodeListAPIView(generics.ListAPIView):
+    serializer_class = EpisodeSerializer
+
+    def get_queryset(self):
+        podcast_id = self.kwargs['podcast_id']
+        return Episode.objects.filter(podcast_id=podcast_id)
+
 
 class ConferenceSessionListAPIView(generics.ListCreateAPIView):
     queryset = ConferenceSession.objects.order_by("start_time")

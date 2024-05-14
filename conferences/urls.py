@@ -1,10 +1,14 @@
 from django.urls import path
-from .views import *
+from .views import ConferenceSessionListAPIView, FilterOptionsAPIView, PodcastListAPIView, EpisodeListAPIView, AuthorListAPIView, SearchAPIView, SessionLikeAPIView, SpeakerListAPIView, SponsorListAPIView
 
 
 app_name = "resume"
 
 urlpatterns = [
+  path('authors/',AuthorListAPIView.as_view(),name='author-list'),
+    path('podcasts/', PodcastListAPIView.as_view(), name='podcast-list'),
+    path('podcasts/<str:podcast_id>/episodes/', EpisodeListAPIView.as_view(), name='episode-list'),
+    
     path(
         "conferences/sessions/",
         ConferenceSessionListAPIView.as_view(),

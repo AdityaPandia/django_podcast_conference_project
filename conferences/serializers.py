@@ -1,6 +1,23 @@
 from rest_framework import serializers
 from .models import *
 
+class AuthorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=Author
+        fields = ('id','name','url','pic_url')
+
+class EpisodeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Episode
+        fields = ('name', 'description', 'audio_url','url','podcast')
+
+class PodcastSerializer(serializers.ModelSerializer):
+    episodes = EpisodeSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Podcast
+        fields = ('id', 'name', 'description', 'episode_amount', 'url','tags','episodes')
+
 
 class SpeakerSerializer(serializers.ModelSerializer):
     class Meta:
