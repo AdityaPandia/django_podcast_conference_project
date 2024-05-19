@@ -1,0 +1,22 @@
+- Have python & django installed in the system.
+- In root directory of backend project, open it in terminal, run the command 'pip install -r requirements.txt'
+- Setup pgadmin with the database file shared in google drive.
+- Open command prompt, and type 'ipconfig', and note down the ip address (It will be of format something like : 192.168.254.4)
+- In root directory of backend project, open it in terminal, or vscode, or any code editor, and then in terminal, type in
+'python manage.py runserver [IP ADDRESS THAT WAS NOTED]:8001
+FOR EXAMPLE, if ip address is 192.168.254.2, then type 'python manage.py runserver 192.168.254.2:8001'
+- Now the backend server will be running successfully on your system as localhost.
+
+
+TO SETUP THE APP,
+
+- Install and setup flutter and vscode - https://docs.flutter.dev/get-started/install/windows/mobile?tab=download
+- After succesfully setting up flutter, open frontend project folder, goto -> lib/apis/open apis.dart file, you will see something like this in that file:
+class Apis{
+  String anytime = "http://192.168.254.24:8001";
+  String droid="http://192.168.254.24:8001";
+}
+
+Replace the ipaddress part with one that was noted while setting up backend project.
+
+- Run command 'fluter build apk --release', in root directory of frontend project, once it succesfully completes, goto root directory -> build/app/outputs/flutter-apk/ you will find 'app-release.apk', save this apk file for installation on your mobile. Make sure backend server is running while testing mobile app.
