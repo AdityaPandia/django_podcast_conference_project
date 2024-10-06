@@ -26,7 +26,7 @@ SECRET_KEY = "django-insecure-8p0+)tohgz_=8buz4_fx1zh83@e(-mf_r(qoty4mzcub=4k7!i
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["51.83.130.98"]
 
 
 # Application definition
@@ -89,7 +89,7 @@ DATABASES = {
     'default': {
        'ENGINE': 'django.db.backends.postgresql',
        'NAME': 'scraper_data',
-       'USER': 'postgres',
+       'USER': 'scraper_user',
        'PASSWORD': 'postgres789',
        'HOST': 'localhost',
        'PORT': '5432',
