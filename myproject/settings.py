@@ -90,7 +90,7 @@ DATABASES = {
        'ENGINE': 'django.db.backends.postgresql',
        'NAME': 'scraper_data',
        'USER': 'postgres',
-       'PASSWORD': '123456',
+       'PASSWORD': 'postgres789',
        'HOST': 'localhost',
        'PORT': '5432',
      }
